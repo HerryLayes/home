@@ -5,23 +5,37 @@
     <title>Herrybloxer - русский роблокс</title>
     <style>
         html, body {
-    height: 100%;
     margin: 0;
     padding: 0;
-    }
+    height: 100%;
+}
 
-    body {
-        min-height: 100vh; /* ← добавь это */
-        background-image: url('background.jpg');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
-        .container {
-            width: 80%;
-            margin: 50px auto;
-            text-align: center;
-        }
+body {
+    min-height: 100vh;
+    background: url('background.jpg') center / cover no-repeat;
+    overflow-x: hidden;
+
+    display: flex;                 /* включаем flex */
+    justify-content: center;       /* по горизонтали центр */
+    align-items: center;           /* по вертикали центр */
+}
+
+.container {
+    text-align: center;
+    transform: translateY(-60px);  /* чуть выше середины */
+}
+
+h1 {
+    font-size: 64px;               /* большой заголовок */
+    color: white;
+    margin: 0;
+}
+
+p {
+    font-size: 28px;               /* текст загрузки больше */
+    color: white;
+    margin-top: 15px;
+}
     </style>
 </head>
 <body>
@@ -31,6 +45,7 @@
     </div>
 </body>
 </html>
+
 
 
 
