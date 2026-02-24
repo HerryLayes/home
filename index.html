@@ -74,10 +74,43 @@ h1 {
 </style>
 </head>
 <body>
+
+<!-- ЭКРАН ЗАГРУЗКИ -->
+<div id="loading-screen">
     <div class="container">
+
         <div class="title">
-    <img src="block.png" class="logo">
-    <h1>Herrybloxer</h1>
+            <img src="block.png" class="logo">
+            <h1>Herrybloxer</h1>
+        </div>
+
+        <p class="loading">
+            Загрузка<span class="dots">
+                <span>.</span><span>.</span><span>.</span>
+            </span>
+        </p>
+
+    </div>
+</div>
+
+<!-- ГЛАВНАЯ СТРАНИЦА -->
+<div id="main-content">
+    <h1>Добро пожаловать в Herrybloxer 🎮</h1>
+</div>
+
+<script>
+    setTimeout(function() {
+        document.getElementById("loading-screen").style.opacity = "0";
+
+        setTimeout(function() {
+            document.getElementById("loading-screen").style.display = "none";
+            document.getElementById("main-content").style.display = "flex";
+        }, 500);
+
+    }, 3000);
+</script>
+
+</body>
 </div>
         <p class="loading">Загрузка</p>
     </div>
@@ -88,6 +121,7 @@ h1 {
 </script>
 </body>
 </html>
+
 
 
 
