@@ -92,10 +92,28 @@ h1 {
     display: none;
     height: 100vh;
     background: #fafafa;
-    color: white;
+    position: relative;
+    color: black;
+}
+
+/* Центр текста */
+.main-center {
+    height: 100%;
+    display: flex;
     justify-content: center;
     align-items: center;
     font-size: 50px;
+}
+
+/* Профиль игрока */
+#profile {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 20px;
+    background: rgba(0,0,0,0.05);
+    padding: 10px 18px;
+    border-radius: 12px;
 }
 </style>
 </head>
@@ -105,7 +123,6 @@ h1 {
 <!-- ЭКРАН ЗАГРУЗКИ -->
 <div id="loading-screen">
     <div class="container">
-
         <div class="title">
             <img src="block.png" class="logo">
             <h1>Herrybloxer</h1>
@@ -116,25 +133,60 @@ h1 {
                 <span>.</span><span>.</span><span>.</span>
             </span>
         </p>
-
     </div>
 </div>
 
 <!-- ГЛАВНАЯ -->
 <div id="main-content">
-    Добро пожаловать в Herrybloxer 🎮
+
+    <div id="profile">
+        👤 <span id="nickname"></span>
+    </div>
+
+    <div class="main-center">
+        Добро пожаловать в Herrybloxer 🎮
+    </div>
+
 </div>
 
 <script>
+
+/* Переход с загрузки */
 setTimeout(function() {
     document.getElementById("loading-screen").style.opacity = "0";
 
     setTimeout(function() {
         document.getElementById("loading-screen").style.display = "none";
-        document.getElementById("main-content").style.display = "flex";
+        document.getElementById("main-content").style.display = "block";
     }, 500);
 
 }, 3000);
+
+
+/* ===================== */
+/* СИСТЕМА НИКНЕЙМА */
+/* ===================== */
+
+let nickname = localStorage.getItem("herrybloxer_nick");
+
+if (!nickname) {
+
+    let userCount = localStorage.getItem("herrybloxer_count");
+
+    if (!userCount) {
+        userCount = 1;
+    } else {
+        userCount = parseInt(userCount) + 1;
+    }
+
+    nickname = "user" + userCount;
+
+    localStorage.setItem("herrybloxer_nick", nickname);
+    localStorage.setItem("herrybloxer_count", userCount);
+}
+
+document.getElementById("nickname").textContent = nickname;
+
 </script>
 
 </body>
