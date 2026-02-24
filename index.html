@@ -68,7 +68,6 @@ h1 {
     text-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
-/* Анимация точек */
 .dots span {
     opacity: 0;
     animation: blink 1.4s infinite;
@@ -85,18 +84,16 @@ h1 {
 }
 
 /* ==================== */
-/* ГЛАВНАЯ СТРАНИЦА */
+/* ГЛАВНАЯ */
 /* ==================== */
 
 #main-content {
     display: none;
     height: 100vh;
-    background: #fafafa;
+    background: #f5f5f5;
     position: relative;
-    color: black;
 }
 
-/* Центр текста */
 .main-center {
     height: 100%;
     display: flex;
@@ -105,7 +102,6 @@ h1 {
     font-size: 50px;
 }
 
-/* Профиль игрока */
 #profile {
     position: absolute;
     top: 20px;
@@ -120,7 +116,7 @@ h1 {
 
 <body>
 
-<!-- ЭКРАН ЗАГРУЗКИ -->
+<!-- ЗАГРУЗКА -->
 <div id="loading-screen">
     <div class="container">
         <div class="title">
@@ -138,7 +134,6 @@ h1 {
 
 <!-- ГЛАВНАЯ -->
 <div id="main-content">
-
     <div id="profile">
         👤 <span id="nickname"></span>
     </div>
@@ -146,12 +141,11 @@ h1 {
     <div class="main-center">
         Добро пожаловать в Herrybloxer 🎮
     </div>
-
 </div>
 
+<!-- СКРИПТЫ -->
 <script>
-
-/* Переход с загрузки */
+/* Переход */
 setTimeout(function() {
     document.getElementById("loading-screen").style.opacity = "0";
 
@@ -161,28 +155,44 @@ setTimeout(function() {
     }, 500);
 
 }, 3000);
+</script>
 
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-/* ===================== */
-/* СИСТЕМА НИКНЕЙМА */
-/* ===================== */
+const firebaseConfig = {
+  apiKey: "AIzaSyDGA3ij_G6IDmGAFILaEFrzPXUVkcIW0qI",
+  authDomain: "herrybloxer.firebaseapp.com",
+  projectId: "herrybloxer",
+  storageBucket: "herrybloxer.firebasestorage.app",
+  messagingSenderId: "319991453518",
+  appId: "1:319991453518:web:e2b90ba4fcafed73bfb01f"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 let nickname = localStorage.getItem("herrybloxer_nick");
 
 if (!nickname) {
 
-    let userCount = localStorage.getItem("herrybloxer_count");
+    const counterRef = doc(db, "global", "userCounter");
+    const counterSnap = await getDoc(counterRef);
 
-    if (!userCount) {
-        userCount = 1;
+    let newNumber;
+
+    if (!counterSnap.exists()) {
+        newNumber = 1;
+        await setDoc(counterRef, { count: 1 });
     } else {
-        userCount = parseInt(userCount) + 1;
+        newNumber = counterSnap.data().count + 1;
+        await updateDoc(counterRef, { count: increment(1) });
     }
 
-    nickname = "user" + userCount;
-
+    nickname = "user" + newNumber;
     localStorage.setItem("herrybloxer_nick", nickname);
-    localStorage.setItem("herrybloxer_count", userCount);
 }
 
 document.getElementById("nickname").textContent = nickname;
@@ -191,7 +201,6 @@ document.getElementById("nickname").textContent = nickname;
 
 </body>
 </html>
-
 
 
 
