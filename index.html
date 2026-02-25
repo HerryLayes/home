@@ -3,313 +3,338 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Herrybloxer - русский роблокс</title>
+<title>Herrybloxer</title>
 
 <style>
 html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: sans-serif;
+    margin:0;
+    padding:0;
+    height:100%;
+    font-family:sans-serif;
+    overflow:hidden;
 }
 
-/* ================= LOADING ================= */
+/* LOADING */
 
 #loading-screen {
-    position: fixed;
-    width: 100%;
-    height: 100vh;
-    background: url('background.jpg') center / cover no-repeat;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 0.5s ease;
-    z-index: 1000;
+    position:fixed;
+    width:100%;
+    height:100vh;
+    background:#111;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:40px;
+    transition:0.5s;
+    z-index:1000;
 }
 
-.container {
-    text-align: center;
-    transform: translateY(-60px);
-}
-
-.title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 25px;
-}
-
-.logo {
-    width: 90px;
-    height: 90px;
-    border-radius: 25px;
-    animation: spin 3s linear infinite;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-}
-
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-}
-
-h1 {
-    font-size: clamp(40px, 8vw, 90px);
-    color: white;
-    margin: 0;
-}
-
-.loading {
-    font-size: clamp(20px, 4vw, 39px);
-    color: white;
-    margin-top: 20px;
-}
-
-/* ================= MAIN ================= */
+/* MAIN */
 
 #main-content {
-    display: none;
-    height: 100vh;
-    background: #f5f5f5;
-    position: relative;
+    display:none;
+    height:100vh;
+    background:#f5f5f5;
+    position:relative;
 }
 
-.center-text {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: clamp(24px, 5vw, 50px);
+.layout {
+    display:flex;
+    height:100%;
+}
+
+.left {
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:40px;
+}
+
+.right {
+    width:320px;
+    padding:20px;
+}
+
+.game-card {
+    background:#ddd;
+    height:160px;
+    border-radius:15px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
 }
 
 /* PROFILE */
 
 #profile {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(0,0,0,0.05);
-    padding: 10px 15px;
-    border-radius: 12px;
+    position:absolute;
+    top:20px;
+    right:20px;
+    background:#eee;
+    padding:8px 12px;
+    border-radius:10px;
+    display:flex;
+    gap:6px;
+    align-items:center;
 }
 
-#edit-btn {
-    cursor: pointer;
-    border: none;
-    background: none;
-    font-size: 18px;
-}
+.verify { color:#1DA1F2; font-weight:bold; }
 
-/* EDIT BOX */
+/* EDIT */
 
 #edit-box {
-    position: absolute;
-    top: 20px;
-    right: 200px;
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    width: 200px;
+    position:absolute;
+    top:20px;
+    right:200px;
+    background:white;
+    padding:10px;
+    border-radius:10px;
+    display:none;
+    flex-direction:column;
+    gap:8px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
 }
 
-#edit-box input {
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+/* GAME */
+
+#game-container {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    display:none;
+    background:black;
 }
 
-#edit-box button {
-    padding: 8px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    background: black;
-    color: white;
+#exit-game {
+    position:absolute;
+    top:20px;
+    left:20px;
+    z-index:10;
+    padding:10px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOADING -->
-<div id="loading-screen">
-    <div class="container">
-        <div class="title">
-            <img src="block.png" class="logo">
-            <h1>Herrybloxer</h1>
-        </div>
-        <p class="loading">Загрузка...</p>
-    </div>
-</div>
+<div id="loading-screen">Загрузка...</div>
 
-<!-- MAIN -->
 <div id="main-content">
 
-    <div id="profile">
-        👤 <span id="nickname"></span>
-        <button id="edit-btn">✏</button>
-    </div>
+<div id="profile">
+👤 <span id="nickname"></span>
+<button id="edit-btn">✏</button>
+</div>
 
-    <div id="edit-box">
-        <input type="text" id="new-nick" placeholder="Новый ник">
-        <button id="save-nick">Сохранить</button>
-    </div>
+<div id="edit-box">
+<input id="new-nick" placeholder="Новый ник">
+<button id="save-nick">Сохранить</button>
+</div>
 
-    <div class="center-text">
-        Добро пожаловать в Herrybloxer 🎮
-    </div>
+<div class="layout">
+<div class="left">Добро пожаловать 🎮</div>
+<div class="right">
+<div id="test-game" class="game-card">
+The Test Game
+</div>
+</div>
+</div>
 
 </div>
 
-<script>
-setTimeout(() => {
-    document.getElementById("loading-screen").style.opacity = "0";
-    setTimeout(() => {
-        document.getElementById("loading-screen").style.display = "none";
-        document.getElementById("main-content").style.display = "block";
-    }, 500);
-}, 3000);
-</script>
+<div id="game-container">
+<button id="exit-game">Выйти</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, increment } 
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-/* ================= FIREBASE ================= */
+/* LOADING */
+setTimeout(()=>{
+document.getElementById("loading-screen").style.display="none";
+document.getElementById("main-content").style.display="block";
+},2000);
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDGA3ij_G6IDmGAFILaEFrzPXUVkcIW0qI",
-  authDomain: "herrybloxer.firebaseapp.com",
-  projectId: "herrybloxer",
-  storageBucket: "herrybloxer.firebasestorage.app",
-  messagingSenderId: "319991453518",
-  appId: "1:319991453518:web:e2b90ba4fcafed73bfb01f"
+/* FIREBASE */
+const firebaseConfig={
+apiKey:"AIzaSyDGA3ij_G6IDmGAFILaEFrzPXUVkcIW0qI",
+authDomain:"herrybloxer.firebaseapp.com",
+projectId:"herrybloxer"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
 
-/* ================= OWNER SYSTEM ================= */
+/* OWNER */
+const REAL_OWNER_ID="65b73f08-2c93-4ac5-a20c-a5059ffa3bc1";
 
-// 🔥 ВСТАВИШЬ СВОЙ ID ПОТОМ
-const REAL_OWNER_ID = "65b73f08-2c93-4ac5-a20c-a5059ffa3bc1";
-
-let ownerId = localStorage.getItem("herrybloxer_owner");
-
-if (!ownerId) {
-    ownerId = crypto.randomUUID();
-    localStorage.setItem("herrybloxer_owner", ownerId);
+let ownerId=localStorage.getItem("herrybloxer_owner");
+if(!ownerId){
+ownerId=crypto.randomUUID();
+localStorage.setItem("herrybloxer_owner",ownerId);
 }
 
-/* ================= BAD WORD FILTER ================= */
-
-const bannedWords = ["дурак","идиот"];
-
-function containsBadWord(name) {
-    const lower = name.toLowerCase();
-    return bannedWords.some(word => lower.includes(word));
+/* FILTER */
+const bannedWords=["дурак","идиот"];
+function bad(name){
+return bannedWords.some(w=>name.toLowerCase().includes(w));
 }
 
-/* ================= USER SYSTEM ================= */
+/* USER */
+let nickname=localStorage.getItem("herrybloxer_nick");
 
-let nickname = localStorage.getItem("herrybloxer_nick");
-
-function renderNickname() {
-    const el = document.getElementById("nickname");
-
-    if (ownerId === REAL_OWNER_ID) {
-        el.innerHTML = nickname + ' <span style="color:#1DA1F2;">✔</span>';
-    } else {
-        el.textContent = nickname;
-    }
+function renderNick(){
+const el=document.getElementById("nickname");
+if(ownerId===REAL_OWNER_ID){
+el.innerHTML=nickname+' <span class="verify">✔</span>';
+}else{
+el.textContent=nickname;
+}
 }
 
-async function createUser() {
-    const counterRef = doc(db, "global", "userCounter");
-    const snap = await getDoc(counterRef);
-
-    let number;
-
-    if (!snap.exists()) {
-        number = 1;
-        await setDoc(counterRef, { count: 1 });
-    } else {
-        number = snap.data().count + 1;
-        await updateDoc(counterRef, { count: increment(1) });
-    }
-
-    nickname = "user" + number;
-    localStorage.setItem("herrybloxer_nick", nickname);
-
-    await setDoc(doc(db, "usernames", nickname), { createdAt: Date.now() });
-
-    renderNickname();
+async function createUser(){
+const ref=doc(db,"global","userCounter");
+const snap=await getDoc(ref);
+let n=1;
+if(snap.exists()){
+n=snap.data().count+1;
+await updateDoc(ref,{count:increment(1)});
+}else{
+await setDoc(ref,{count:1});
+}
+nickname="user"+n;
+localStorage.setItem("herrybloxer_nick",nickname);
+await setDoc(doc(db,"usernames",nickname),{created:Date.now()});
+renderNick();
 }
 
-async function init() {
-    if (!nickname) {
-        await createUser();
-    } else {
-        renderNickname();
-    }
-}
+if(!nickname){ await createUser(); }
+else renderNick();
 
-await init();
+/* EDIT */
+editBtn.onclick=()=>editBox.style.display=
+editBox.style.display==="flex"?"none":"flex";
 
-/* ================= EDIT ================= */
+saveBtn.onclick=async()=>{
+const newNick=newNickInput.value?.trim();
+if(!newNick||newNick.length<3) return alert("Минимум 3 символа");
+if(bad(newNick)) return alert("Запрещённое слово");
 
-const editBtn = document.getElementById("edit-btn");
-const editBox = document.getElementById("edit-box");
-const saveBtn = document.getElementById("save-nick");
-const input = document.getElementById("new-nick");
+const ref=doc(db,"usernames",newNick);
+if((await getDoc(ref)).exists()) return alert("Ник занят");
 
-editBtn.onclick = () => {
-    editBox.style.display = editBox.style.display === "flex" ? "none" : "flex";
+await setDoc(ref,{created:Date.now()});
+await deleteDoc(doc(db,"usernames",nickname));
+
+nickname=newNick;
+localStorage.setItem("herrybloxer_nick",nickname);
+renderNick();
+editBox.style.display="none";
 };
 
-saveBtn.onclick = async () => {
-    const newNick = input.value.trim();
+/* 3D GAME */
+const card=document.getElementById("test-game");
+const gameContainer=document.getElementById("game-container");
+const exitBtn=document.getElementById("exit-game");
 
-    if (newNick.length < 3) {
-        alert("Минимум 3 символа!");
-        return;
-    }
-
-    if (containsBadWord(newNick)) {
-        alert("Ник содержит запрещённые слова!");
-        return;
-    }
-
-    const ref = doc(db, "usernames", newNick);
-    const snap = await getDoc(ref);
-
-    if (snap.exists()) {
-        alert("Этот ник уже занят!");
-        return;
-    }
-
-    await setDoc(ref, { createdAt: Date.now() });
-    await deleteDoc(doc(db, "usernames", nickname));
-
-    nickname = newNick;
-    localStorage.setItem("herrybloxer_nick", nickname);
-
-    renderNickname();
-
-    editBox.style.display = "none";
-    input.value = "";
+card.onclick=()=>{
+document.getElementById("main-content").style.display="none";
+gameContainer.style.display="block";
+startGame();
 };
+
+exitBtn.onclick=()=>{
+gameContainer.innerHTML='<button id="exit-game">Выйти</button>';
+gameContainer.style.display="none";
+document.getElementById("main-content").style.display="block";
+};
+
+function startGame(){
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x87ceeb);
+
+const camera=new THREE.PerspectiveCamera(
+75,window.innerWidth/window.innerHeight,0.1,1000);
+
+const renderer=new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth,window.innerHeight);
+gameContainer.appendChild(renderer.domElement);
+
+const light=new THREE.DirectionalLight(0xffffff,1);
+light.position.set(5,10,5);
+scene.add(light);
+
+const ground=new THREE.Mesh(
+new THREE.PlaneGeometry(100,100),
+new THREE.MeshStandardMaterial({color:0x228B22})
+);
+ground.rotation.x=-Math.PI/2;
+scene.add(ground);
+
+const player=new THREE.Mesh(
+new THREE.BoxGeometry(1,2,1),
+new THREE.MeshStandardMaterial({color:0xff0000})
+);
+player.position.y=1;
+scene.add(player);
+
+camera.position.set(0,5,8);
+
+const keys={};
+document.addEventListener("keydown",e=>keys[e.key.toLowerCase()]=true);
+document.addEventListener("keyup",e=>keys[e.key.toLowerCase()]=false);
+
+let velocityY=0;
+let onGround=true;
+
+function animate(){
+requestAnimationFrame(animate);
+
+const speed=0.15;
+
+if(keys["w"]) player.position.z-=speed;
+if(keys["s"]) player.position.z+=speed;
+if(keys["a"]) player.position.x-=speed;
+if(keys["d"]) player.position.x+=speed;
+
+if(keys[" "]&&onGround){
+velocityY=0.2;
+onGround=false;
+}
+
+velocityY-=0.01;
+player.position.y+=velocityY;
+
+if(player.position.y<=1){
+player.position.y=1;
+velocityY=0;
+onGround=true;
+}
+
+camera.position.x=player.position.x;
+camera.position.z=player.position.z+8;
+camera.lookAt(player.position);
+
+renderer.render(scene,camera);
+}
+animate();
+}
 </script>
 
 </body>
 </html>
+
 
 
 
