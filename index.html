@@ -223,8 +223,38 @@ if(!nickname){ await createUser(); }
 else renderNick();
 
 /* EDIT */
-editBtn.onclick=()=>editBox.style.display=
-editBox.style.display==="flex"?"none":"flex";
+const editBtn = document.getElementById("edit-btn");
+const editBox = document.getElementById("edit-box");
+const saveBtn = document.getElementById("save-nick");
+const newNickInput = document.getElementById("new-nick");
+
+editBtn.onclick = () => {
+    editBox.style.display =
+        editBox.style.display === "flex" ? "none" : "flex";
+};
+
+saveBtn.onclick = async () => {
+    const newNick = newNickInput.value.trim();
+
+    if (!newNick || newNick.length < 3)
+        return alert("Минимум 3 символа");
+
+    if (bad(newNick))
+        return alert("Запрещённое слово");
+
+    const ref = doc(db, "usernames", newNick);
+    if ((await getDoc(ref)).exists())
+        return alert("Ник занят");
+
+    await setDoc(ref, { created: Date.now() });
+    await deleteDoc(doc(db, "usernames", nickname));
+
+    nickname = newNick;
+    localStorage.setItem("herrybloxer_nick", nickname);
+
+    renderNick();
+    editBox.style.display = "none";
+};
 
 saveBtn.onclick=async()=>{
 const newNick=newNickInput.value?.trim();
@@ -334,6 +364,7 @@ animate();
 
 </body>
 </html>
+
 
 
 
