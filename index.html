@@ -182,6 +182,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, increment } 
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+/* ================= FIREBASE ================= */
+
 const firebaseConfig = {
   apiKey: "AIzaSyDGA3ij_G6IDmGAFILaEFrzPXUVkcIW0qI",
   authDomain: "herrybloxer.firebaseapp.com",
@@ -194,6 +196,20 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+/* ================= OWNER SYSTEM ================= */
+
+// 🔥 ВСТАВИШЬ СВОЙ ID ПОТОМ
+const REAL_OWNER_ID = "PASTE_YOUR_ID_HERE";
+
+let ownerId = localStorage.getItem("herrybloxer_owner");
+
+if (!ownerId) {
+    ownerId = crypto.randomUUID();
+    localStorage.setItem("herrybloxer_owner", ownerId);
+}
+
+/* ================= BAD WORD FILTER ================= */
+
 const bannedWords = ["дурак","идиот"];
 
 function containsBadWord(name) {
@@ -201,7 +217,19 @@ function containsBadWord(name) {
     return bannedWords.some(word => lower.includes(word));
 }
 
+/* ================= USER SYSTEM ================= */
+
 let nickname = localStorage.getItem("herrybloxer_nick");
+
+function renderNickname() {
+    const el = document.getElementById("nickname");
+
+    if (ownerId === REAL_OWNER_ID) {
+        el.innerHTML = nickname + ' <span style="color:#1DA1F2;">✔</span>';
+    } else {
+        el.textContent = nickname;
+    }
+}
 
 async function createUser() {
     const counterRef = doc(db, "global", "userCounter");
@@ -221,20 +249,21 @@ async function createUser() {
     localStorage.setItem("herrybloxer_nick", nickname);
 
     await setDoc(doc(db, "usernames", nickname), { createdAt: Date.now() });
-    document.getElementById("nickname").textContent = nickname;
+
+    renderNickname();
 }
 
 async function init() {
     if (!nickname) {
         await createUser();
     } else {
-        document.getElementById("nickname").textContent = nickname;
+        renderNickname();
     }
 }
 
 await init();
 
-/* EDIT */
+/* ================= EDIT ================= */
 
 const editBtn = document.getElementById("edit-btn");
 const editBox = document.getElementById("edit-box");
@@ -271,7 +300,8 @@ saveBtn.onclick = async () => {
 
     nickname = newNick;
     localStorage.setItem("herrybloxer_nick", nickname);
-    document.getElementById("nickname").textContent = nickname;
+
+    renderNickname();
 
     editBox.style.display = "none";
     input.value = "";
@@ -280,6 +310,7 @@ saveBtn.onclick = async () => {
 
 </body>
 </html>
+
 
 
 
