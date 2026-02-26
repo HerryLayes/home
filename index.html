@@ -138,6 +138,45 @@ h1 {
     color: #1DA1F2;
     font-weight: bold;
 }
+
+    /* ================= GAME CARD ================= */
+
+.games-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 120px;
+}
+
+.game-card {
+    width: 220px;
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+}
+
+.game-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.game-subtitle {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.game-author {
+    font-size: 14px;
+    color: #888;
+}
 </style>
 </head>
 
@@ -167,9 +206,13 @@ h1 {
         <button id="save-nick">Сохранить</button>
     </div>
 
-    <div class="center-text">
-        Добро пожаловать в Herrybloxer 🎮
+    <div class="games-container">
+    <div class="game-card">
+        <div class="game-title">2048 Кубики</div>
+        <div class="game-subtitle">2048 Кубики</div>
+        <div class="game-author">Автор: Herrybloxer</div>
     </div>
+</div>
 
 </div>
 
@@ -316,6 +359,7 @@ saveBtn.onclick = async () => {
 
 </body>
 </html>
+
 
 
 
