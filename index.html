@@ -210,7 +210,7 @@ h1 {
     </div>
 
     <div class="games-container">
-    <div class="game-card">
+    <div class="game-card" data-space="1">
     <div class="game-title">The Test Game</div>
     <div class="game-author">Автор: Herrybloxer ✔</div>
     </div>
@@ -360,9 +360,17 @@ saveBtn.onclick = async () => {
     input.value = "";
 };
 </script>
-
+<script>
+document.querySelectorAll(".game-card").forEach(card => {
+    card.addEventListener("click", () => {
+        const spaceId = card.getAttribute("data-space");
+        window.location.href = "/home/?space=" + spaceId;
+    });
+});
+</script>
 </body>
 </html>
+
 
 
 
