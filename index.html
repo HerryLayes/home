@@ -18,7 +18,7 @@
             overflow: hidden;
         }
 
-        /* ===== Главный стартовый экран ===== */
+        /* ===== Стартовый экран ===== */
 
         .start-screen {
             position: absolute;
@@ -58,7 +58,7 @@
             transform: scale(1.05);
         }
 
-        /* ===== Экран загрузки ===== */
+        /* ===== Загрузка ===== */
 
         .loading-screen {
             position: fixed;
@@ -112,13 +112,7 @@
             position: fixed;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #ffffff, #f2f2f2);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 40px;
-            font-weight: bold;
+            background: linear-gradient(135deg, #ffffff, #fffff);
             opacity: 0;
             visibility: hidden;
             transition: 0.5s;
@@ -127,6 +121,15 @@
         .platform-screen.active {
             opacity: 1;
             visibility: visible;
+        }
+
+        .nickname {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
         }
 
     </style>
@@ -151,35 +154,57 @@
         <div class="loading-text">Загрузка...</div>
     </div>
 
-    <!-- Главный экран платформы -->
+    <!-- Платформа -->
     <div class="platform-screen" id="platformScreen">
-        Добро пожаловать в Herrybloxer 🚀
+        <div class="nickname" id="nickname"></div>
     </div>
 
     <script>
+
+        function generateNickname() {
+
+            let nickname = localStorage.getItem("nickname");
+
+            if (!nickname) {
+
+                let userCount = localStorage.getItem("userCount");
+
+                if (!userCount) {
+                    userCount = 1;
+                } else {
+                    userCount = parseInt(userCount) + 1;
+                }
+
+                localStorage.setItem("userCount", userCount);
+
+                nickname = "user" + userCount;
+
+                localStorage.setItem("nickname", nickname);
+            }
+
+            document.getElementById("nickname").innerText = nickname;
+        }
+
         function openPlatform() {
 
-            // Показываем загрузку
             document.getElementById("loadingScreen").classList.add("active");
 
-            // Через 3 секунды
             setTimeout(function() {
 
-                // Скрываем стартовый экран
                 document.getElementById("startScreen").style.display = "none";
-
-                // Скрываем загрузку
                 document.getElementById("loadingScreen").classList.remove("active");
-
-                // Показываем платформу
                 document.getElementById("platformScreen").classList.add("active");
+
+                generateNickname();
 
             }, 3000);
         }
+
     </script>
 
 </body>
 </html>
+
 
 
 
