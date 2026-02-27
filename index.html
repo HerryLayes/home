@@ -159,51 +159,78 @@
         <div class="nickname" id="nickname"></div>
     </div>
 
-    <script>
+    <script type="module">
 
-        function generateNickname() {
+// Импортируем Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-            let nickname = localStorage.getItem("nickname");
+// 🔥 ВСТАВЬ СЮДА СВОЙ firebaseConfig
+const firebaseConfig = {
+  apiKey: "AIzaSyDGA3ij_G6IDmGAFILaEFrzPXUVkcIW0qI",
+  authDomain: "herrybloxer.firebaseapp.com",
+  projectId: "herrybloxer",
+  storageBucket: "herrybloxer.firebasestorage.app",
+  messagingSenderId: "319991453518",
+  appId: "1:319991453518:web:e2b90ba4fcafed73bfb01f"
+};
 
-            if (!nickname) {
+// Инициализация
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-                let userCount = localStorage.getItem("userCount");
+// ===== Генерация ника =====
 
-                if (!userCount) {
-                    userCount = 1;
-                } else {
-                    userCount = parseInt(userCount) + 1;
-                }
+async function generateNickname() {
 
-                localStorage.setItem("userCount", userCount);
+    let localNick = localStorage.getItem("nickname");
 
-                nickname = "user" + userCount;
+    if (localNick) {
+        document.getElementById("nickname").innerText = localNick;
+        return;
+    }
 
-                localStorage.setItem("nickname", nickname);
-            }
+    const counterRef = doc(db, "global", "userCounter");
+    const counterSnap = await getDoc(counterRef);
 
-            document.getElementById("nickname").innerText = nickname;
-        }
+    let newNumber;
 
-        function openPlatform() {
+    if (!counterSnap.exists()) {
+        newNumber = 1;
+        await setDoc(counterRef, { count: 1 });
+    } else {
+        newNumber = counterSnap.data().count + 1;
+        await updateDoc(counterRef, { count: newNumber });
+    }
 
-            document.getElementById("loadingScreen").classList.add("active");
+    const nickname = "user" + newNumber;
 
-            setTimeout(function() {
+    localStorage.setItem("nickname", nickname);
+    document.getElementById("nickname").innerText = nickname;
+}
 
-                document.getElementById("startScreen").style.display = "none";
-                document.getElementById("loadingScreen").classList.remove("active");
-                document.getElementById("platformScreen").classList.add("active");
+// ===== Открытие платформы =====
 
-                generateNickname();
+window.openPlatform = function() {
 
-            }, 3000);
-        }
+    document.getElementById("loadingScreen").classList.add("active");
 
-    </script>
+    setTimeout(async function() {
+
+        document.getElementById("startScreen").style.display = "none";
+        document.getElementById("loadingScreen").classList.remove("active");
+        document.getElementById("platformScreen").classList.add("active");
+
+        await generateNickname();
+
+    }, 3000);
+};
+
+</script>
 
 </body>
 </html>
+
 
 
 
