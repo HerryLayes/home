@@ -301,6 +301,57 @@
     filter: drop-shadow(0 0 4px rgba(0, 123, 255, 0.6));
 }
 
+        .license-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.license-box {
+    background: url("lichen.jpg") center/cover no-repeat;
+    padding: 40px;
+    border-radius: 20px;
+    width: 400px;
+    text-align: center;
+}
+
+.license-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: white;
+}
+
+.license-card {
+    background: #2c2c2c;
+    padding: 25px;
+    border-radius: 15px;
+}
+
+.plan-name {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.plan-price {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #4da6ff;
+}
+
+.buy-button {
+    background: #555;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    color: white;
+    font-size: 16px;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
     </style>
 </head>
 <body>
@@ -315,6 +366,22 @@
             <button class="btn" onclick="openPlatform()">Открыть платформу</button>
         </div>
     </div>
+
+    <div class="license-section">
+
+    <div class="license-box">
+        <h2 class="license-title">Лицензия</h2>
+
+        <div class="license-card">
+            <div class="plan-name">1 месяц</div>
+            <div class="plan-price">29₽</div>
+
+            <button class="buy-button" disabled>Купить</button>
+        </div>
+
+    </div>
+
+</div>
 
     <!-- Экран загрузки -->
     <div class="loading-screen" id="loadingScreen">
@@ -658,6 +725,7 @@ window.logoutUser = async function() {
 
 </body>
 </html>
+
 
 
 
