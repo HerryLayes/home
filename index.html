@@ -158,7 +158,7 @@
     <div class="platform-screen" id="platformScreen">
         <div class="nickname">
     <span id="nickname"></span>
-    <button onclick="editNickname()" style="margin-left:20px; cursor:pointer;">✏</button>
+    <button onclick="editNickname()" style="margin-left:10px; cursor:pointer;">✏</button>
 </div>
     </div>
 
@@ -184,11 +184,34 @@ const auth = getAuth(app);
 let currentUser = null;
 
 // ===== Проверка входа =====
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
+
     if (user) {
+
         currentUser = user;
-        loadUserNickname();
+
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+
+        if (!userSnap.exists()) {
+            // Если это новый пользователь — создаём ник
+            const nickname = await generateNickname();
+
+            await setDoc(userRef, {
+                nickname: nickname
+            });
+
+            document.getElementById("nickname").innerText = nickname;
+
+        } else {
+            document.getElementById("nickname").innerText = userSnap.data().nickname;
+        }
+
+    } else {
+        currentUser = null;
+        document.getElementById("nickname").innerText = "Гость";
     }
+
 });
 
 // ===== Загрузка ника пользователя =====
@@ -309,6 +332,7 @@ align-items:center;
 </div>
 </body>
 </html>
+
 
 
 
