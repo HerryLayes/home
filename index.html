@@ -169,6 +169,7 @@
 }
 
 .modal-box {
+    position: relative;
     background: white;
     padding: 35px;
     border-radius: 20px;
@@ -225,6 +226,23 @@
 .main-btn:hover {
     background: #0056b3;
     transform: scale(1.03);
+}
+
+        .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 18px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #777;
+    transition: 0.2s;
+}
+
+.close-btn:hover {
+    color: black;
+    transform: scale(1.2);
 }
 
     </style>
@@ -447,10 +465,16 @@ window.switchTab = function(type) {
     }
 };
 
+       window.closeModal = function() {
+    document.getElementById("authModal").style.display = "none";
+};
+
 </script>
     <div id="authModal" class="modal">
 
     <div class="modal-box">
+
+        <button class="close-btn" onclick="closeModal()">✖</button>
 
         <div class="auth-tabs">
             <button id="loginTab" class="tab active" onclick="switchTab('login')">Вход</button>
@@ -470,6 +494,7 @@ window.switchTab = function(type) {
 
 </body>
 </html>
+
 
 
 
