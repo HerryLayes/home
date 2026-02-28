@@ -345,13 +345,6 @@ import {
     where,
     getDocs
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { 
-    getAuth, 
-    createUserWithEmailAndPassword, 
-    signInWithEmailAndPassword, 
-    onAuthStateChanged,
-    sendEmailVerification
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDGA3ij_G6IDmGAFILaEFrzPXUVkcIW0qI",
@@ -485,14 +478,7 @@ window.loginUser = async function() {
 
     try {
 
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-
-        if (!userCredential.user.emailVerified) {
-
-            alert("Подтвердите email перед входом!");
-            await auth.signOut();
-            return;
-        }
+        await signInWithEmailAndPassword(auth, email, password);
 
         location.reload();
 
@@ -509,15 +495,11 @@ window.loginUser = async function() {
 
     try {
 
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await createUserWithEmailAndPassword(auth, email, password);
 
-        // 🔥 Отправляем письмо подтверждения
-        await sendEmailVerification(userCredential.user);
+        alert("Аккаунт успешно создан!");
 
-        alert("На вашу почту отправлено письмо для подтверждения!");
-
-        // Выходим из аккаунта пока не подтвердит
-        await auth.signOut();
+        location.reload();
 
     } catch (error) {
         alert("Ошибка регистрации: " + error.message);
@@ -670,6 +652,7 @@ window.logoutUser = async function() {
 
 </body>
 </html>
+
 
 
 
