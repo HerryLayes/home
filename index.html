@@ -741,8 +741,12 @@ let moveLeft = false;
 let moveRight = false;
 
 window.openEditor = function() {
-    document.getElementById("editor3d").style.display = "block";
+
     document.querySelector(".create-card").style.display = "none";
+    document.querySelector(".nickname").style.display = "none";
+
+    document.getElementById("editor3d").style.display = "block";
+
     init3D();
 }
 
@@ -874,6 +878,7 @@ function animate() {
 </div>
 </body>
 </html>
+
 
 
 
