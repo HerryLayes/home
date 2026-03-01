@@ -749,11 +749,11 @@ window.openEditor = function() {
 function init3D() {
 
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xffffff);
+    scene.background = new THREE.Color(0xff0000);
 
     camera = new THREE.PerspectiveCamera(
         75,
-        window.innerWidth / window.innerHeight,
+        1,
         0.1,
         1000
     );
@@ -761,14 +761,24 @@ function init3D() {
     camera.position.set(0, 2, 5);
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
-   const container = document.getElementById("editor3d");
 
-renderer.setSize(container.clientWidth, container.clientHeight);
+    const container = document.getElementById("editor3d");
 
-camera.aspect = container.clientWidth / container.clientHeight;
-camera.updateProjectionMatrix();
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
 
-    document.getElementById("editor3d").appendChild(renderer.domElement);
+    camera.aspect = container.clientWidth / container.clientHeight;
+    camera.updateProjectionMatrix();
+
+    // 🔥 resize внутри init3D
+    window.addEventListener("resize", () => {
+        const width = container.clientWidth;
+        const height = container.clientHeight;
+
+        renderer.setSize(width, height);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+    });
 
     const light = new THREE.HemisphereLight(0xffffff, 0x444444);
     scene.add(light);
@@ -779,7 +789,7 @@ camera.updateProjectionMatrix();
 
     animate();
 }
-
+       
 let yaw = 0;
 let pitch = 0;
 
@@ -820,15 +830,6 @@ function animate() {
 
     
 }
-
-       window.addEventListener("resize", () => {
-    const width = container.clientWidth;
-    const height = container.clientHeight;
-
-    renderer.setSize(width, height);
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-});
        
 </script>
     <div id="authModal" class="modal">
@@ -873,6 +874,7 @@ function animate() {
 </div>
 </body>
 </html>
+
 
 
 
