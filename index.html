@@ -520,6 +520,39 @@
     transform: scale(1.1);
 }
 
+
+
+
+
+        .object-item {
+    width: 90%;
+    height: 60px;
+
+    margin: 10px auto;
+
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+
+    display: flex;
+    align-items: center;
+
+    padding-left: 15px;
+
+    color: white;
+    font-size: 18px;
+
+    transition: 0.2s;
+}
+
+.object-item:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.brick-icon {
+    font-size: 22px;
+    margin-right: 15px;
+}
+
     </style>
 </head>
 <body>
@@ -593,6 +626,8 @@
 </div>
 
    <script type="module">
+
+let cubeCounter = 0;
        
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
 
@@ -952,15 +987,41 @@ function init3D() {
 
     // ===== НЕБО =====
     const skyGeometry = new THREE.SphereGeometry(500, 32, 32);
-    const skyMaterial = new THREE.MeshBasicMaterial({
-        color: 0x87CEEB,
-        side: THREE.BackSide
-    });
-    const sky = new THREE.Mesh(skyGeometry, skyMaterial);
-    scene.add(sky);
 
-    const light = new THREE.HemisphereLight(0xffffff, 0x444444);
-    scene.add(light);
+const skyMaterial = new THREE.ShaderMaterial({
+    uniforms: {
+        topColor: { value: new THREE.Color(0x4da6ff) },
+        bottomColor: { value: new THREE.Color(0xffffff) },
+        offset: { value: 33 },
+        exponent: { value: 0.6 }
+    },
+    vertexShader: `
+        varying vec3 vWorldPosition;
+        void main() {
+            vec4 worldPosition = modelMatrix * vec4(position, 1.0);
+            vWorldPosition = worldPosition.xyz;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+    `,
+    fragmentShader: `
+        uniform vec3 topColor;
+        uniform vec3 bottomColor;
+        uniform float offset;
+        uniform float exponent;
+        varying vec3 vWorldPosition;
+        void main() {
+            float h = normalize(vWorldPosition + offset).y;
+            gl_FragColor = vec4(
+                mix(bottomColor, topColor, pow(max(h, 0.0), exponent)),
+                1.0
+            );
+        }
+    `,
+    side: THREE.BackSide
+});
+
+const sky = new THREE.Mesh(skyGeometry, skyMaterial);
+scene.add(sky);
 
     // ===== КНОПКА "+" =====
     const objectsPanel = document.querySelector(".objects-panel");
@@ -972,15 +1033,35 @@ function init3D() {
 
     addBtn.addEventListener("click", () => {
 
-        const direction = new THREE.Vector3();
-        camera.getWorldDirection(direction);
+    const direction = new THREE.Vector3();
+    camera.getWorldDirection(direction);
 
-        const position = camera.position.clone().add(direction.multiplyScalar(3));
+    const position = camera.position.clone().add(direction.multiplyScalar(3));
 
-        const cube = new THREE.Mesh(
-            new THREE.BoxGeometry(1, 1, 1),
-            new THREE.MeshStandardMaterial({ color: 0x888888 })
-        );
+    const cube = new THREE.Mesh(
+        new THREE.BoxGeometry(1, 1, 1),
+        new THREE.MeshStandardMaterial({
+            color: 0xdddddd,
+            roughness: 0.4,
+            metalness: 0.1
+        })
+    );
+
+    cube.position.copy(position);
+    scene.add(cube);
+
+    // ===== СОЗДАЁМ КАРТОЧКУ В ПАНЕЛИ =====
+    cubeCounter++;
+
+    const item = document.createElement("div");
+    item.className = "object-item";
+    item.innerHTML = `
+        <span class="brick-icon">🧱</span>
+        Кубик ${cubeCounter}
+    `;
+
+    objectsPanel.appendChild(item);
+});
 
         cube.position.copy(position);
         scene.add(cube);
@@ -1093,6 +1174,7 @@ function animate() {
 </div>
 </body>
 </html>
+
 
 
 
