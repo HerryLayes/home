@@ -1004,6 +1004,8 @@ function init3D() {
 
     objectsList.innerHTML = "";
 
+    scene = new THREE.Scene();
+
     // Мягкий общий свет
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
 scene.add(ambientLight);
@@ -1062,8 +1064,6 @@ const skyMaterial = new THREE.ShaderMaterial({
 
 const sky = new THREE.Mesh(skyGeometry, skyMaterial);
 scene.add(sky);
-
-const addBtn = document.getElementById("addObjectBtn");
 
     addBtn.addEventListener("click", () => {
 
@@ -1204,6 +1204,7 @@ function animate() {
 </div>
 </body>
 </html>
+
 
 
 
