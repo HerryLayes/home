@@ -1106,7 +1106,7 @@ objectsList.appendChild(item);
 nameSpan.addEventListener("click", () => {
 
     const input = document.createElement("input");
-input.type = "text";
+input.type = "search";
 input.value = nameSpan.textContent;
 
 input.setAttribute("autocomplete", "off");
@@ -1148,8 +1148,6 @@ input.addEventListener("blur", () => {
 });
 
 });
-
-    objectsList.appendChild(item);
 };
 
     // ===== POINTER LOCK =====
@@ -1259,6 +1257,7 @@ function animate() {
 </div>
 </body>
 </html>
+
 
 
 
