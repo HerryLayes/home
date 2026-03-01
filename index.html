@@ -410,6 +410,62 @@
     transform: scale(1.05);
 }
 
+
+
+
+        /* Кнопка Объекты */
+.objects-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+
+    background: #3c4b57;
+    padding: 18px;
+    border-radius: 25px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.objects-button:hover {
+    background: #2f3b45;
+    transform: scale(1.05);
+}
+
+.objects-icon {
+    font-size: 28px;
+}
+
+.objects-text {
+    color: white;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Панель объектов */
+.objects-panel {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    z-index: 20;
+}
+
+/* Кнопка назад */
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+
+    background: #3c4b57;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
     </style>
 </head>
 <body>
@@ -455,7 +511,16 @@
 
     <div id="editor3d" style="width:100%; height:100%; display:none;"></div>
 
+    <div id="objectsPanel" class="objects-panel">
+    <button id="closeObjects" class="back-btn">⬅</button>
+</div>
+
     <div id="editorUI" style="display:none; position:absolute; top:20px; left:20px; z-index:10;">
+
+    <div id="objectsBtn" class="objects-button" style="display:none;">
+    <div class="objects-icon">🧱</div>
+    <div class="objects-text">Объекты</div>
+</div>
 
     <button id="exitEditorBtn" class="editor-btn">⬅ 🏠</button>
 
@@ -769,6 +834,7 @@ window.openEditor = function() {
 
     document.getElementById("editor3d").style.display = "block";
     document.getElementById("editorUI").style.display = "block";
+    document.getElementById("objectsBtn").style.display = "block";
 
     document.querySelector(".create-card").style.display = "none";
     document.querySelector(".nickname").style.display = "none";
@@ -876,6 +942,25 @@ renderer.domElement.addEventListener("click", () => {
     renderer.domElement.requestPointerLock();
 });
 
+
+// Открытие панели объектов
+document.getElementById("objectsBtn").addEventListener("click", () => {
+
+    document.getElementById("objectsPanel").style.display = "block";
+
+    // Скрываем кнопку выхода
+    document.getElementById("editorUI").style.display = "none";
+});
+
+// Закрытие панели
+document.getElementById("closeObjects").addEventListener("click", () => {
+
+    document.getElementById("objectsPanel").style.display = "none";
+
+    // Возвращаем кнопку выхода
+    document.getElementById("editorUI").style.display = "block";
+});
+
 animate();
 }
        
@@ -976,6 +1061,7 @@ function animate() {
 </div>
 </body>
 </html>
+
 
 
 
