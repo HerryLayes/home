@@ -1087,11 +1087,48 @@ scene.add(sky);
     cubeCounter++;
 
     const item = document.createElement("div");
-    item.className = "object-item";
-    item.innerHTML = `
-        <span class="brick-icon">🧱</span>
-        Кубик ${cubeCounter}
-    `;
+item.className = "object-item";
+
+const icon = document.createElement("span");
+icon.className = "brick-icon";
+icon.textContent = "🧱";
+
+const nameSpan = document.createElement("span");
+nameSpan.textContent = `Кубик ${cubeCounter}`;
+nameSpan.style.cursor = "pointer";
+
+item.appendChild(icon);
+item.appendChild(nameSpan);
+
+objectsList.appendChild(item);
+
+// ===== ПЕРЕИМЕНОВАНИЕ =====
+nameSpan.addEventListener("click", () => {
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = nameSpan.textContent;
+    input.style.fontSize = "18px";
+    input.style.borderRadius = "6px";
+    input.style.border = "none";
+    input.style.padding = "4px";
+
+    item.replaceChild(input, nameSpan);
+    input.focus();
+
+    input.addEventListener("keydown", (e) => {
+
+        if (e.key === "Enter") {
+
+            const newName = input.value.trim();
+            nameSpan.textContent = newName || `Кубик ${cubeCounter}`;
+
+            item.replaceChild(nameSpan, input);
+        }
+
+    });
+
+});
 
     objectsList.appendChild(item);
 };
@@ -1203,6 +1240,7 @@ function animate() {
 </div>
 </body>
 </html>
+
 
 
 
