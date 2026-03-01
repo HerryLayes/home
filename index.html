@@ -469,15 +469,11 @@
 
 /* Кнопка назад */
 .back-btn {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-
     background: #3c4b57;
     color: white;
     border: none;
-    padding: 10px 16px;
-    border-radius: 20px;
+    padding: 10px 18px;
+    border-radius: 15px;
     cursor: pointer;
 }
 
@@ -493,11 +489,7 @@
 }
 
 
-        .add-object-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-
+.add-object-btn {
     width: 45px;
     height: 45px;
 
@@ -512,7 +504,6 @@
 
     border-radius: 12px;
     cursor: pointer;
-    transition: 0.2s;
 }
 
 .add-object-btn:hover {
@@ -551,6 +542,31 @@
 .brick-icon {
     font-size: 22px;
     margin-right: 15px;
+}
+
+
+
+
+
+
+
+        .objects-header {
+    position: relative;
+    width: 100%;
+    height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 25px;
+}
+
+.objects-list {
+    width: 100%;
+    height: calc(100% - 70px);
+    overflow-y: auto;
+    padding-top: 10px;
 }
 
     </style>
@@ -599,7 +615,14 @@
     <div id="editor3d" style="width:100%; height:100%; display:none;"></div>
 
     <div id="objectsPanel" class="objects-panel">
-    <button id="closeObjects" class="back-btn">⬅</button>
+
+    <div class="objects-header">
+        <button id="closeObjects" class="back-btn">⬅</button>
+        <div id="addObjectBtn" class="add-object-btn">+</div>
+    </div>
+
+    <div class="objects-list" id="objectsList"></div>
+
 </div>
 
     <div id="editorUI" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; z-index:10;">
@@ -1023,13 +1046,8 @@ const skyMaterial = new THREE.ShaderMaterial({
 const sky = new THREE.Mesh(skyGeometry, skyMaterial);
 scene.add(sky);
 
-    // ===== КНОПКА "+" =====
-    const objectsPanel = document.querySelector(".objects-panel");
-
-    const addBtn = document.createElement("div");
-    addBtn.className = "add-object-btn";
-    addBtn.textContent = "+";
-    objectsPanel.appendChild(addBtn);
+const addBtn = document.getElementById("addObjectBtn");
+const objectsList = document.getElementById("objectsList");
 
     addBtn.addEventListener("click", () => {
 
@@ -1170,6 +1188,7 @@ function animate() {
 </div>
 </body>
 </html>
+
 
 
 
