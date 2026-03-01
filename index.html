@@ -996,11 +996,13 @@ closeObjects.addEventListener("click", () => {
 
 // ===== INIT 3D =====
 function init3D() {
-    const objectsList = document.getElementById("objectsList");
-objectsList.innerHTML = "";
-cubeCounter = 0;
 
-    scene = new THREE.Scene();
+    cubeCounter = 0;
+
+    const objectsList = document.getElementById("objectsList");
+    const addBtn = document.getElementById("addObjectBtn");
+
+    objectsList.innerHTML = "";
 
     // Мягкий общий свет
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
@@ -1062,7 +1064,6 @@ const sky = new THREE.Mesh(skyGeometry, skyMaterial);
 scene.add(sky);
 
 const addBtn = document.getElementById("addObjectBtn");
-const objectsList = document.getElementById("objectsList");
 
     addBtn.addEventListener("click", () => {
 
@@ -1203,6 +1204,7 @@ function animate() {
 </div>
 </body>
 </html>
+
 
 
 
