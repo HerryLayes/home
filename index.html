@@ -569,6 +569,26 @@
     padding-top: 10px;
 }
 
+
+
+        .exit-no-save-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    color: #e53935;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.exit-no-save-btn:hover {
+    background: rgba(229,57,53,0.1);
+    transform: scale(1.03);
+}
+
     </style>
 </head>
 <body>
@@ -963,20 +983,10 @@ window.openEditor = function () {
 // ===== ЗАКРЫТИЕ РЕДАКТОРА =====
 document.getElementById("exitEditorBtn").addEventListener("click", () => {
 
-    objectsPanel.style.display = "none";
-objectsBtn.style.display = "none";
-
     document.exitPointerLock();
 
-    if (renderer) {
-        renderer.domElement.remove();
-    }
+    document.getElementById("exitConfirmModal").style.display = "flex";
 
-    document.getElementById("editor3d").style.display = "none";
-    document.getElementById("editorUI").style.display = "none";
-
-    document.querySelector(".create-card").style.display = "flex";
-    document.querySelector(".nickname").style.display = "flex";
 });
 
 // ===== ОТКРЫТИЕ ПАНЕЛИ ОБЪЕКТОВ =====
@@ -1200,6 +1210,44 @@ function onKeyUp(event) {
     if (event.code === "KeyD") moveRight = false;
 }
 
+
+
+
+
+       
+
+// ===== Подтверждение выхода =====
+window.confirmExit = function(save) {
+    if (save) {
+        console.log("Сохраняем проект...");
+    } else {
+        console.log("Выход без сохранения");
+    }
+
+    // Закрываем модалку
+    document.getElementById("exitConfirmModal").style.display = "none";
+
+    objectsPanel.style.display = "none";
+    objectsBtn.style.display = "none";
+
+    if (renderer) {
+        renderer.domElement.remove();
+    }
+
+    document.getElementById("editor3d").style.display = "none";
+    document.getElementById("editorUI").style.display = "none";
+
+    document.querySelector(".create-card").style.display = "flex";
+    document.querySelector(".nickname").style.display = "flex";
+};
+
+
+
+
+
+
+
+
 // ===== ANIMATE =====
 function animate() {
     requestAnimationFrame(animate);
@@ -1255,8 +1303,27 @@ function animate() {
     </div>
 
 </div>
+    <!-- Модалка выхода из редактора -->
+<div id="exitConfirmModal" class="modal">
+
+    <div class="modal-box">
+
+        <h3>Выйти из редактора?</h3>
+
+        <button class="main-btn" onclick="confirmExit(true)">
+            Сохранить
+        </button>
+
+        <button class="exit-no-save-btn" onclick="confirmExit(false)">
+            Не сохранять
+        </button>
+
+    </div>
+
+</div>
 </body>
 </html>
+
 
 
 
