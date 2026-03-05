@@ -761,6 +761,8 @@ onAuthStateChanged(auth, async (user) => {
         nicknameElement.innerText = "Гость";
 
     }
+
+    await checkProfilePage();
 });
 
 // ===== Загрузка ника пользователя =====
@@ -1268,11 +1270,9 @@ window.confirmExit = function(save) {
 // ===== Назад на главную =====
 window.goHome = function() {
 
-    window.history.pushState({}, "", window.location.pathname);
-    document.getElementById("profilePage").style.display = "none";
+    window.location.href = "https://herrylayes.github.io/";
 
-};
-       
+};  
 
 
 
@@ -1325,9 +1325,6 @@ async function checkProfilePage() {
         document.getElementById("profileTitle").innerText = "Профиль автора";
     }
 }
-
-// Запускаем после загрузки
-setTimeout(checkProfilePage, 500);
 
 
 
@@ -1397,6 +1394,7 @@ setTimeout(checkProfilePage, 500);
 </div>
 </body>
 </html>
+
 
 
 
