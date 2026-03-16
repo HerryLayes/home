@@ -1429,20 +1429,15 @@ async function loadProfile(uid){
 
     if(!currentUser) return;
 
-    // скрываем платформу
+    document.getElementById("startScreen").style.display = "none";
     document.getElementById("platformScreen").style.display = "none";
-
-    // показываем профиль
     document.getElementById("profilePage").style.display = "block";
 
-    // пишем заголовок
     document.getElementById("profileTitle").innerText = "Мой профиль";
 
-    // показываем ник
     document.getElementById("profileNickname").innerText =
         document.getElementById("nickname").innerText;
 
-    // показываем ID
     document.getElementById("profileUID").innerText =
         currentUser.uid;
 
