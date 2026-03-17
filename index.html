@@ -1398,13 +1398,6 @@ async function loadProfile(uid){
     document.getElementById("profileNickname").innerText = data.nickname;
     document.getElementById("profileUID").innerText = uid;
 
-    // определяем чей профиль
-    if(currentUser && currentUser.uid === uid){
-        document.getElementById("profileTitle").innerText = "Мой профиль";
-    } else {
-        document.getElementById("profileTitle").innerText = "Профиль автора";
-    }
-
 }
 
 
